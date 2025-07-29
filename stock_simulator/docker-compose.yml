@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  main_app:
+    build: ./main_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+    networks:
+      - stock_simulator_net
+
+  historical_data_fetcher:
+    build: ./historical_data_fetcher
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./data:/app/data
+    networks:
+      - stock_simulator_net
+
+  data_generator:
+    build: ./data_generator
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./data:/app/data
+    networks:
+      - stock_simulator_net
+
+  backtester:
+    build: ./backtester
+    ports:
+      - "5003:5003"
+    volumes:
+      - ./data:/app/data
+    networks:
+      - stock_simulator_net
+
+networks:
+  stock_simulator_net:
+    driver: bridge
+
+volumes:
+  data:
